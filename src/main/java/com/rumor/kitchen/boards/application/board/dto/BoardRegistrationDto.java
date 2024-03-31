@@ -4,7 +4,7 @@ import com.rumor.kitchen.enumeration.Category;
 
 import java.util.List;
 
-public  record BoardRegistrationDto(
+public record BoardRegistrationDto(
         String title,
         Category category,
         List<String> tags,
