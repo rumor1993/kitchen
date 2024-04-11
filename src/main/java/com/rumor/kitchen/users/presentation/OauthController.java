@@ -29,9 +29,12 @@ public class OauthController {
         String token = oauthService.authenticate(social, code);
 
         Cookie cookie = new Cookie("access-token", token);
-        cookie.setSecure(true); // 이 속성과
+        cookie.setSecure(true);
         cookie.setAttribute("SameSite", "None"); // 이 속성 추가
         cookie.setPath("/");
+        cookie.setDomain("localhost");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(600);
 
         response.addCookie(cookie);
         response.sendRedirect("http://localhost:3000");
