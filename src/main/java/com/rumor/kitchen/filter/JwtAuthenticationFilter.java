@@ -25,6 +25,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        if (CorsUtils.isPreFlightRequest(request)) {
+            return true;
+        }
+
         String[] excludePath = { "/oauth2/" };
         String path = request.getRequestURI();
         return Arrays.stream(excludePath).anyMatch(path::startsWith);
@@ -32,10 +36,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (CorsUtils.isPreFlightRequest(request)) {
-            filterChain.doFilter(request, response);
-        }
-
         // 1. Request Header에서 JWT 토큰 추출
         String token = resolveToken(request);
 
