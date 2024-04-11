@@ -37,7 +37,6 @@ public class OauthController {
         cookie.setMaxAge(600);
 
         response.addCookie(cookie);
-        response.setHeader("Set-Cookie", "JSESSIONID=" + token + "; SameSite=None; Secure");
         response.sendRedirect("https://rumor-lab.com");
     }
 }
