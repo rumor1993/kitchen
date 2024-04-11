@@ -15,6 +15,5 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .allowCredentials(true) // 이거는 꼭 허용해줘야 한다.
                 .maxAge(1800);
-
     }
 }
