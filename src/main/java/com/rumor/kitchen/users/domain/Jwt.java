@@ -30,7 +30,6 @@ public class Jwt {
                 .setExpiration(new Date(now.getTime() + 3600000))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
-
         return token;
     }
 
@@ -40,6 +39,15 @@ public class Jwt {
             return !claimsJws.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    public String getAuthentication(String token) throws IllegalAccessException {
+        try {
+            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            return claimsJws.getBody().getSubject();
+        } catch (Exception e) {
+            throw new IllegalAccessException("JWT TOKEN CHECK.");
         }
     }
 }
