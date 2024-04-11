@@ -3,15 +3,15 @@ package com.rumor.kitchen.users.presentation;
 import com.rumor.kitchen.enumeration.Social;
 import com.rumor.kitchen.users.application.OauthService;
 import com.rumor.kitchen.users.properties.OauthProperties;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.time.Duration;
 
 @Slf4j
 @RestController
@@ -28,18 +28,14 @@ public class OauthController {
     }
 
     @GetMapping("/{social}/authenticate")
-    public void authenticate(@PathVariable Social social, @RequestParam String code, HttpServletResponse response) throws IOException {
+    public void  authenticate(@PathVariable Social social, @RequestParam String code, HttpServletResponse response) throws IOException {
         String token = oauthService.authenticate(social, code);
 
-        ResponseCookie cookie = ResponseCookie.from("access-token", token)
-                .httpOnly(true)
-                .secure(true)
-                .path("/")      // path
-                .maxAge(Duration.ofDays(1))
-                .sameSite("None")  // sameSite
-                .build();
+        Cookie cookie = new Cookie("access-token", token);
+        cookie.setSecure(true); // 이 속성과
+        cookie.setAttribute("SameSite", "None"); // 이 속성 추가
 
-        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        response.addCookie(cookie);
         response.sendRedirect("http://localhost:3000");
     }
 }
