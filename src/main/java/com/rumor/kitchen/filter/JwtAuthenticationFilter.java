@@ -33,6 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 1. Request Header에서 JWT 토큰 추출
         String token = resolveToken(request);
+        System.out.println("token = " + token);
 
         // 2. validateToken으로 토큰의 유효성 검사
         if (token == null) {
