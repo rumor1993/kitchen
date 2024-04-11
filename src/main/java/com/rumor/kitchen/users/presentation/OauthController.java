@@ -31,6 +31,7 @@ public class OauthController {
         Cookie cookie = new Cookie("access-token", token);
         cookie.setSecure(true); // 이 속성과
         cookie.setAttribute("SameSite", "None"); // 이 속성 추가
+        cookie.setPath("/");
 
         response.addCookie(cookie);
         response.sendRedirect("http://localhost:3000");
