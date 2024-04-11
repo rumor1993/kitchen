@@ -20,35 +20,19 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final Jwt jwt;
-    private final UserRepository userRepository
-            ;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         // 1. Request Header에서 JWT 토큰 추출
         String token = resolveToken(request);
-        System.out.println("resolveToken ### " + token);
 
         // 2. validateToken으로 토큰의 유효성 검사
         if (token != null && jwt.validateToken(token)) {
-            // 토큰이 유효할 경우, 토큰에서 Authentication 객체를 가지고 와서 SecurityContext에 저장한다.
-
-            try {
-                String authentication = jwt.getAuthentication(token);
-                System.out.println("authentication ### " + authentication);
-
-                User user = userRepository.findBySubject(authentication)
-                        .orElse(new User("", ""));
-
-                System.out.println("user = " + user.getId());
-                System.out.println("user = " + user.getSubject());
-                System.out.println("user = " + user.getEmail());
-            } catch (IllegalAccessException e) {
-
-            }
+            filterChain.doFilter(request, response);
         }
 
-        filterChain.doFilter(request, response);
+        throw new RuntimeException("권한 없음");
     }
 
     // Request Header에서 토큰 정보를 추출하기 위한 메서드
