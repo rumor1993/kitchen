@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         // 모든 경로에 대해 모든 HTTP 메서드에 대한 CORS를 허용
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:8080", "http://localhost:3000")
+                .allowedOriginPatterns("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowCredentials(true) // 이 부분 추가
                 .allowedHeaders("*");
