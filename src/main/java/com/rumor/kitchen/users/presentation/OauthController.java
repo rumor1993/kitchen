@@ -32,12 +32,12 @@ public class OauthController {
         cookie.setSecure(false);
         cookie.setAttribute("SameSite", "None"); // 이 속성 추가
         cookie.setPath("/");
-        cookie.setDomain("localhost");
+        cookie.setDomain("rumor-lab");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(600);
 
         response.addCookie(cookie);
         response.setHeader("Set-Cookie", "JSESSIONID=" + token + "; SameSite=None; Secure");
-        response.sendRedirect("/");
+        response.sendRedirect("https://rumor-lab.com");
     }
 }
