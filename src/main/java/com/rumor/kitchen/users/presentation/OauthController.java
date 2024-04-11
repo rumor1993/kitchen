@@ -7,8 +7,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -16,7 +14,6 @@ import java.io.IOException;
 @Slf4j
 @RestController
 @RequestMapping("/oauth2")
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class OauthController {
     private final OauthService oauthService;
