@@ -35,14 +35,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = resolveToken(request);
         System.out.println("token = " + token);
 
-        // 2. validateToken으로 토큰의 유효성 검사
-        if (token == null) {
-            throw new RuntimeException("권한 없음");
-        }
-
-        if (!jwt.validateToken(token)) {
-            throw new RuntimeException("권한 없음");
-        }
+//        // 2. validateToken으로 토큰의 유효성 검사
+//        if (token == null) {
+//            throw new RuntimeException("권한 없음");
+//        }
+//
+//        if (!jwt.validateToken(token)) {
+//            throw new RuntimeException("권한 없음");
+//        }
 
         filterChain.doFilter(request, response);
     }
