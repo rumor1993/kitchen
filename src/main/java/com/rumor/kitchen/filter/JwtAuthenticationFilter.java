@@ -35,11 +35,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = resolveToken(request);
 
         // 2. validateToken으로 토큰의 유효성 검사
-        if (token != null && jwt.validateToken(token)) {
-            filterChain.doFilter(request, response);
+        if (token == null && !jwt.validateToken(token)) {
+            throw new RuntimeException("권한 없음");
         }
 
-        throw new RuntimeException("권한 없음");
+        filterChain.doFilter(request, response);
     }
 
     // Request Header에서 토큰 정보를 추출하기 위한 메서드
