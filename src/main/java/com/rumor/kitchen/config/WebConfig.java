@@ -10,7 +10,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // 영향 받는 곳
-                .allowedOriginPatterns("*") // 허용할 도메인 패턴
+                .allowedOriginPatterns("rumor-lab.com") // 허용할 도메인 패턴
                 .allowedMethods("GET", "POST") // 허용할 메서드
                 .allowedHeaders("*")
                 .allowCredentials(true) // 이거는 꼭 허용해줘야 한다.
