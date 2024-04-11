@@ -18,7 +18,7 @@ import java.io.IOException;
 @RequestMapping("/oauth2")
 @RequiredArgsConstructor
 public class OauthController {
-    public static final String TOKEN_PREFIX = "Bearer";
+    public static final String TOKEN_PREFIX = "Bearer ";
     private final OauthService oauthService;
     private final OauthProperties oauthProperties;
 
