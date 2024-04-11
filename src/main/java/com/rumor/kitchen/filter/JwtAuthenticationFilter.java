@@ -1,7 +1,10 @@
 package com.rumor.kitchen.filter;
 
+import com.rumor.kitchen.users.application.UserService;
 import com.rumor.kitchen.users.domain.Authentication;
 import com.rumor.kitchen.users.domain.Jwt;
+import com.rumor.kitchen.users.domain.User;
+import com.rumor.kitchen.users.domain.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +20,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final Jwt jwt;
+    private final UserRepository userRepository
+            ;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -31,6 +36,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 String authentication = jwt.getAuthentication(token);
                 System.out.println("authentication ### " + authentication);
+
+                User user = userRepository.findBySubject(authentication)
+                        .orElse(new User("", ""));
+
+                System.out.println("user = " + user.getId());
+                System.out.println("user = " + user.getSubject());
+                System.out.println("user = " + user.getEmail());
             } catch (IllegalAccessException e) {
 
             }
