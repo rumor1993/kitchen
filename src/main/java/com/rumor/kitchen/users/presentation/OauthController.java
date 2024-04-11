@@ -1,5 +1,6 @@
 package com.rumor.kitchen.users.presentation;
 
+import com.google.api.client.auth.oauth2.BearerToken;
 import com.rumor.kitchen.enumeration.Social;
 import com.rumor.kitchen.users.application.OauthService;
 import com.rumor.kitchen.users.properties.OauthProperties;
@@ -17,6 +18,7 @@ import java.io.IOException;
 @RequestMapping("/oauth2")
 @RequiredArgsConstructor
 public class OauthController {
+    public static final String TOKEN_PREFIX = "Bearer";
     private final OauthService oauthService;
     private final OauthProperties oauthProperties;
 
@@ -29,13 +31,7 @@ public class OauthController {
     public void  authenticate(@PathVariable Social social, @RequestParam String code, HttpServletResponse response) throws IOException {
         String token = oauthService.authenticate(social, code);
 
-        Cookie cookie = new Cookie("accessToken", token);
-        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(24 * 60 * 60);
-
-        response.addCookie(cookie);
+        response.addHeader(HttpHeaders.AUTHORIZATION, TOKEN_PREFIX + token);
         response.sendRedirect("http://rumor-lab.com");
     }
 }
