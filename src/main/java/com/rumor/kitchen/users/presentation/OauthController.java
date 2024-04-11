@@ -28,8 +28,8 @@ public class OauthController {
     public void  authenticate(@PathVariable Social social, @RequestParam String code, HttpServletResponse response) throws IOException {
         String token = oauthService.authenticate(social, code);
 
-        Cookie cookie = new Cookie("access-token", token);
-        cookie.setSecure(true);
+        Cookie cookie = new Cookie("accessToken", token);
+        cookie.setSecure(false);
         cookie.setAttribute("SameSite", "None"); // 이 속성 추가
         cookie.setPath("/");
         cookie.setDomain("localhost");
@@ -37,6 +37,7 @@ public class OauthController {
         cookie.setMaxAge(600);
 
         response.addCookie(cookie);
+        response.setHeader("Set-Cookie", "JSESSIONID=" + token + "; SameSite=None; Secure");
         response.sendRedirect("http://localhost:3000");
     }
 }
