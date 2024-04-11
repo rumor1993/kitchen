@@ -38,6 +38,6 @@ public class OauthController {
 
         response.addCookie(cookie);
         response.setHeader("Set-Cookie", "JSESSIONID=" + token + "; SameSite=None; Secure");
-        response.sendRedirect("http://localhost:3000");
+        response.sendRedirect("/");
     }
 }
