@@ -30,12 +30,12 @@ public class OauthController {
         String token = oauthService.authenticate(social, code);
 
         Cookie cookie = new Cookie("accessToken", token);
-        cookie.setSecure(false);
+        cookie.setSecure(true);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(600);
 
-        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        response.addCookie(cookie);
         response.sendRedirect("http://rumor-lab.com");
     }
 }
