@@ -7,6 +7,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -30,13 +31,11 @@ public class OauthController {
 
         Cookie cookie = new Cookie("accessToken", token);
         cookie.setSecure(false);
-        cookie.setAttribute("SameSite", "None"); // 이 속성 추가
         cookie.setPath("/");
-        cookie.setDomain("rumor-lab");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(600);
 
-        response.addCookie(cookie);
-        response.sendRedirect("https://rumor-lab.com");
+        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        response.sendRedirect("http://rumor-lab");
     }
 }
