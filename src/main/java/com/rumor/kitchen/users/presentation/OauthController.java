@@ -32,7 +32,7 @@ public class OauthController {
         cookie.setSecure(true);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(24 * 60 * 60);
+        cookie.setMaxAge(3600);
 
         response.addCookie(cookie);
         response.sendRedirect("http://rumor-lab.com");
