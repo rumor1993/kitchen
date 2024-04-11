@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -31,18 +32,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        if (CorsUtils.isPreFlightRequest(request)) {
+            filterChain.doFilter(request, response);
+        }
+
         // 1. Request Header에서 JWT 토큰 추출
         String token = resolveToken(request);
-        System.out.println("token = " + token);
 
-//        // 2. validateToken으로 토큰의 유효성 검사
-//        if (token == null) {
-//            throw new RuntimeException("권한 없음");
-//        }
-//
-//        if (!jwt.validateToken(token)) {
-//            throw new RuntimeException("권한 없음");
-//        }
+        // 2. validateToken으로 토큰의 유효성 검사
+        if (token == null) {
+            throw new RuntimeException("권한 없음");
+        }
+
+        if (!jwt.validateToken(token)) {
+            throw new RuntimeException("권한 없음");
+        }
 
         filterChain.doFilter(request, response);
     }
