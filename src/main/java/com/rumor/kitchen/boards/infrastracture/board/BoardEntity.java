@@ -22,6 +22,7 @@ public class BoardEntity extends AuditableEntity {
     private String title;
     private Category category;
     private String description;
+    @Column(columnDefinition = "TEXT")
     private String contents;
     @ManyToMany
     @JoinTable(

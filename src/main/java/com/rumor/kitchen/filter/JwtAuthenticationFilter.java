@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.cors.CorsUtils;
@@ -22,14 +23,20 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final Jwt jwt;
+    private final Environment environment;
+
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        if (Arrays.asList(environment.getActiveProfiles()).contains("local")) {
+            return true;
+        }
+
         if (CorsUtils.isPreFlightRequest(request)) {
             return true;
         }
 
-        String[] excludePath = { "/oauth2/" };
+        String[] excludePath = {"/oauth2/"};
         String path = request.getRequestURI();
         return Arrays.stream(excludePath).anyMatch(path::startsWith);
     }

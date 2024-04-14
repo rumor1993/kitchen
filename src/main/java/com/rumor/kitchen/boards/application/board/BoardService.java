@@ -5,6 +5,7 @@ import com.rumor.kitchen.boards.domain.board.BoardRepository;
 import com.rumor.kitchen.boards.infrastracture.board.BoardEntity;
 import com.rumor.kitchen.boards.presentation.board.response.BoardView;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

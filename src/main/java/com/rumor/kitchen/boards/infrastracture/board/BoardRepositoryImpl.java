@@ -3,6 +3,7 @@ package com.rumor.kitchen.boards.infrastracture.board;
 import com.rumor.kitchen.boards.domain.board.BoardRepository;
 import com.rumor.kitchen.boards.presentation.board.response.BoardView;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class BoardRepositoryImpl implements BoardRepository {
 
     @Override
     public List<BoardView> findAll() {
-        return boardJpaRepository.findAll().stream()
+        return boardJpaRepository.findAll(Sort.by(Sort.Order.desc("createdAt"))).stream()
                 .map(board -> new BoardView(
                         board.getId(),
                         board.getTitle(),
