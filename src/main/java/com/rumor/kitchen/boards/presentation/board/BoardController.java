@@ -3,6 +3,8 @@ package com.rumor.kitchen.boards.presentation.board;
 import com.rumor.kitchen.boards.application.board.BoardService;
 import com.rumor.kitchen.boards.presentation.board.request.BoardRegistrationRequest;
 import com.rumor.kitchen.boards.presentation.board.response.BoardView;
+import com.rumor.kitchen.config.resolver.Login;
+import com.rumor.kitchen.users.domain.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +29,10 @@ public class BoardController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> register(@RequestBody final BoardRegistrationRequest boardRegistrationRequest) {
+    public ResponseEntity<Long> register(@Login LoginUser loginUser, @RequestBody final BoardRegistrationRequest boardRegistrationRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(boardService.register(boardRegistrationRequest.toDto()));
+                .body(boardService.register(boardRegistrationRequest.toDto(), loginUser));
     }
 
     @DeleteMapping("{id}")

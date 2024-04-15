@@ -1,4 +1,4 @@
-package com.rumor.kitchen.filter;
+package com.rumor.kitchen.config.filter;
 
 import com.rumor.kitchen.users.application.UserService;
 import com.rumor.kitchen.users.domain.Authentication;
@@ -29,14 +29,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         if (Arrays.asList(environment.getActiveProfiles()).contains("local")) {
-            return true;
+            // return true;
         }
 
         if (CorsUtils.isPreFlightRequest(request)) {
             return true;
         }
 
-        String[] excludePath = {"/oauth2/"};
+        String[] excludePath = {"/oauth2/", "/favicon.ico", "/boards"};
         String path = request.getRequestURI();
         return Arrays.stream(excludePath).anyMatch(path::startsWith);
     }
@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 1. Request Header에서 JWT 토큰 추출
-        String token = resolveToken(request);
+        String token = jwt.extract(request);
 
         // 2. validateToken으로 토큰의 유효성 검사
         if (token == null) {
@@ -56,16 +56,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
-    }
-
-    // Request Header에서 토큰 정보를 추출하기 위한 메서드
-    private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
-            return bearerToken.substring(6);
-        }
-        return null;
     }
 
 }

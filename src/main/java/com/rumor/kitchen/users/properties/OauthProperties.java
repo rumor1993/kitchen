@@ -12,6 +12,7 @@ public class OauthProperties {
 
     private final GoogleProperties google;
 
+
     public String getAuthenticationUrl(Social social) {
         if (social == Social.GOOGLE) {
             return this.google.getAuthenticationUrl();
@@ -31,6 +32,14 @@ public class OauthProperties {
     public String getClientSecret(Social social) {
         if (social == Social.GOOGLE) {
             return this.google.getClientSecret();
+        }
+
+        throw new IllegalArgumentException("not found social " + social);
+    }
+
+    public String getrediRectLoginUrl(Social social) {
+        if (social == Social.GOOGLE) {
+            return this.google.getRedirectLoginUrl();
         }
 
         throw new IllegalArgumentException("not found social " + social);

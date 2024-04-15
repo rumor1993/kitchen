@@ -2,6 +2,8 @@ package com.rumor.kitchen.boards.infrastracture.board;
 
 import com.rumor.kitchen.boards.domain.board.BoardRepository;
 import com.rumor.kitchen.boards.presentation.board.response.BoardView;
+import com.rumor.kitchen.users.domain.UserRepository;
+import com.rumor.kitchen.users.presentation.UserView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 @Repository
 @RequiredArgsConstructor
 public class BoardRepositoryImpl implements BoardRepository {
+    private final UserRepository userRepository;
     private final BoardJpaRepository boardJpaRepository;
 
     @Override
@@ -24,8 +27,13 @@ public class BoardRepositoryImpl implements BoardRepository {
                         board.getCategory(),
                         board.getDescription(),
                         board.getContents(),
-                        board.getCreator(),
-                        board.getViewCount()))
+                        userRepository.findById(board.getCreator())
+                                .map(user -> new UserView(user.getId(), user.getName(), user.getName()))
+                                .orElse(null),
+                        board.getViewCount(),
+                        board.getCreatedAt(),
+                        board.getUpdatedAt()
+                ))
                 .collect(Collectors.toList());
     }
 
@@ -48,8 +56,10 @@ public class BoardRepositoryImpl implements BoardRepository {
                         board.getCategory(),
                         board.getDescription(),
                         board.getContents(),
-                        board.getCreator(),
-                        board.getViewCount()));
+                        userRepository.findById(board.getCreator())
+                                .map(user -> new UserView(user.getId(), user.getName(), user.getName()))
+                                .orElse(null),
+                        board.getViewCount(), board.getCreatedAt(), board.getUpdatedAt()));
     }
 
     @Override

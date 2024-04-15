@@ -30,10 +30,10 @@ public class BoardEntity extends AuditableEntity {
             joinColumns = @JoinColumn(name = "board_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<TagEntity> tags = new HashSet<>();
-    private String creator;
+    private Long creator;
     private Long viewCount;
 
-    public BoardEntity(String title, Category category, String description, String contents, Set<TagEntity> tags, String creator, Long viewCount) {
+    public BoardEntity(String title, Category category, String description, String contents, Set<TagEntity> tags, Long creator, Long viewCount) {
         this.title = title;
         this.category = category;
         this.description = description;
@@ -43,7 +43,7 @@ public class BoardEntity extends AuditableEntity {
         this.viewCount = viewCount;
     }
 
-    public BoardEntity(Long id, String title, Category category, String description, String contents, Set<TagEntity> tags, String creator, Long viewCount) {
+    public BoardEntity(Long id, String title, Category category, String description, String contents, Set<TagEntity> tags, Long creator, Long viewCount) {
         this(title, category, description, contents, tags, creator, viewCount);
         this.id = id;
     }

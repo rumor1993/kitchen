@@ -1,5 +1,6 @@
 package com.rumor.kitchen.users.domain;
 
+import com.rumor.kitchen.boards.infrastracture.common.AuditableEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class User extends AuditableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,10 +18,14 @@ public class User {
     @Column(unique = true)
     private String subject;
 
-    private String email;
+    private String name;
 
-    public User(String subject, String email) {
+    public User(String subject, String name) {
         this.subject = subject;
-        this.email = email;
+        this.name = name;
+    }
+
+    public void rename(String name) {
+        this.name = name;
     }
 }

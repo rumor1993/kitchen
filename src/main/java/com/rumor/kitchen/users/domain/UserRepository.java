@@ -10,5 +10,7 @@ public interface UserRepository extends Repository<User, Long> {
 
     Optional<User> findBySubject(String subject);
 
-    void save(User user);
+    User save(User user);
+
+    Optional<User> findByName(String name);
 }

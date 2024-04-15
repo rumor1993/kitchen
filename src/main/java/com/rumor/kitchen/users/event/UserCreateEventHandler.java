@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class UserCreateEventHandler {
@@ -14,7 +16,7 @@ public class UserCreateEventHandler {
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void handle(UserCreateEvent event) {
-        User user = new User(event.subject(), event.email());
+        User user = new User(event.subject(), UUID.randomUUID().toString());
         userService.createUser(user);
     }
 }

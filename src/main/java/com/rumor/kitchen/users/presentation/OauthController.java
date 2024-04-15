@@ -35,6 +35,6 @@ public class OauthController {
         cookie.setMaxAge(3600);
 
         response.addCookie(cookie);
-        response.sendRedirect("http://rumor-lab.com");
+        response.sendRedirect(oauthProperties.getrediRectLoginUrl(social));
     }
 }

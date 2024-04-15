@@ -5,6 +5,8 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.rumor.kitchen.enumeration.Social;
+import com.rumor.kitchen.users.domain.User;
+import com.rumor.kitchen.users.domain.UserRepository;
 import com.rumor.kitchen.users.event.UserCreateEvent;
 import com.rumor.kitchen.users.properties.OauthProperties;
 import io.micrometer.common.util.StringUtils;
@@ -17,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -25,9 +28,10 @@ public class GoogleAuthenticationStrategy implements AuthenticationStrategy {
 
     private final RestTemplate restTemplate;
     private final ApplicationEventPublisher publisher;
+    private final UserRepository userRepository;
 
     @Override
-    public String authenticate(OauthProperties oauthProperties, String code) throws IOException {
+    public User authenticate(OauthProperties oauthProperties, String code) throws IOException {
         HttpEntity googleOauthRequest = makeGoogleRequestEntity(oauthProperties, code);
         SocialOauthResponse accessToken = requestAccessToken(oauthProperties.getGoogle().getApiUrl(), googleOauthRequest);
 
@@ -60,7 +64,7 @@ public class GoogleAuthenticationStrategy implements AuthenticationStrategy {
 
         return headers;
     }
-    private String verifyToken(SocialOauthResponse response, String clientId) throws IOException {
+    private User verifyToken(SocialOauthResponse response, String clientId) throws IOException {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
                 .setAudience(Collections.singleton(clientId))
                 .build();
@@ -78,9 +82,7 @@ public class GoogleAuthenticationStrategy implements AuthenticationStrategy {
         String email = payload.getEmail();
         String locale = (String) payload.get("locale");
 
-        StringUtils.isNotBlank(subject);
-        publisher.publishEvent(new UserCreateEvent(subject, locale));
-
-        return subject;
+        return userRepository.findBySubject(subject)
+                .orElseGet(() -> userRepository.save(new User(subject, UUID.randomUUID().toString())));
     }
 }

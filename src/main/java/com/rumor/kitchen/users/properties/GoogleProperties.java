@@ -12,4 +12,5 @@ public class GoogleProperties {
     private String redirectUri;
     private String apiUrl;
     private String authenticationUrl;
+    private String redirectLoginUrl;
 }

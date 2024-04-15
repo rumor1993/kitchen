@@ -15,12 +15,12 @@ public class Board {
     private String description;
     private String contents;
     private Set<Tag> tags;
-    private String creator;
+    private Long creator;
     private Long viewCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Board(Long id, String title, Category category, String description, String contents, Set<Tag> tags, String creator, Long viewCount, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Board(Long id, String title, Category category, String description, String contents, Set<Tag> tags, Long creator, Long viewCount, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.title = title;
         this.category = category;

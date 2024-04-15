@@ -4,8 +4,8 @@ import com.rumor.kitchen.boards.application.board.dto.BoardRegistrationDto;
 import com.rumor.kitchen.boards.domain.board.BoardRepository;
 import com.rumor.kitchen.boards.infrastracture.board.BoardEntity;
 import com.rumor.kitchen.boards.presentation.board.response.BoardView;
+import com.rumor.kitchen.users.domain.LoginUser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +24,8 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
-    public Long register(final BoardRegistrationDto boardRegistrationDto) {
-        BoardEntity boardEntity = new BoardEntity(boardRegistrationDto.title(), boardRegistrationDto.category(), boardRegistrationDto.description(), boardRegistrationDto.contents(), null, "", 0L);
+    public Long register(final BoardRegistrationDto boardRegistrationDto, final LoginUser loginUser) {
+        BoardEntity boardEntity = new BoardEntity(boardRegistrationDto.title(), boardRegistrationDto.category(), boardRegistrationDto.description(), boardRegistrationDto.contents(), null, loginUser.getId(), 0L);
         return boardRepository.save(boardEntity).getId();
     }
 
