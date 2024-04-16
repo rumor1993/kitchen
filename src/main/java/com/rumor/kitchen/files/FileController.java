@@ -21,6 +21,6 @@ public class FileController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> upload(@RequestPart MultipartFile file) throws IOException {
-        return ResponseEntity.ok().body(fileService.saveAndGetPath(file).toString());
+        return ResponseEntity.ok().body("/" + fileService.saveAndGetPath(file).toString());
     }
 }
