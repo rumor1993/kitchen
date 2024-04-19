@@ -31,7 +31,6 @@ public class OauthController {
         Cookie cookie = new Cookie("accessToken", token);
         cookie.setSecure(true);
         cookie.setPath("/");
-        cookie.setDomain("rumor-lab.com");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(3600);
 

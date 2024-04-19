@@ -23,7 +23,7 @@ public class BoardController {
         return boardService.getBoards();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public BoardView board(@PathVariable final Long id) {
         return boardService.getBoard(id);
     }
@@ -35,7 +35,7 @@ public class BoardController {
                 .body(boardService.register(boardRegistrationRequest.toDto(), loginUser));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable final Long id) {
         boardService.delete(id);
     }

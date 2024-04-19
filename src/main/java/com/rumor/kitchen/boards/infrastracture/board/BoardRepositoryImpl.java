@@ -2,6 +2,7 @@ package com.rumor.kitchen.boards.infrastracture.board;
 
 import com.rumor.kitchen.boards.domain.board.BoardRepository;
 import com.rumor.kitchen.boards.presentation.board.response.BoardView;
+import com.rumor.kitchen.files.FileRepository;
 import com.rumor.kitchen.users.domain.UserRepository;
 import com.rumor.kitchen.users.presentation.UserView;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class BoardRepositoryImpl implements BoardRepository {
     private final UserRepository userRepository;
     private final BoardJpaRepository boardJpaRepository;
+    private final FileRepository fileRepository;
 
     @Override
     public List<BoardView> findAll() {
@@ -32,7 +34,10 @@ public class BoardRepositoryImpl implements BoardRepository {
                                 .orElse(null),
                         board.getViewCount(),
                         board.getCreatedAt(),
-                        board.getUpdatedAt()
+                        board.getUpdatedAt(),
+                        fileRepository.findByBoardId(board.getId()).stream()
+                                .map(file -> file.getFilePath())
+                                .collect(Collectors.toList())
                 ))
                 .collect(Collectors.toList());
     }
@@ -59,7 +64,11 @@ public class BoardRepositoryImpl implements BoardRepository {
                         userRepository.findById(board.getCreator())
                                 .map(user -> new UserView(user.getId(), user.getName(), user.getName()))
                                 .orElse(null),
-                        board.getViewCount(), board.getCreatedAt(), board.getUpdatedAt()));
+                        board.getViewCount(), board.getCreatedAt(), board.getUpdatedAt(),
+                        fileRepository.findByBoardId(board.getId()).stream()
+                                .map(file -> file.getFilePath())
+                                .collect(Collectors.toList())
+                ));
     }
 
     @Override

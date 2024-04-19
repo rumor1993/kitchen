@@ -10,9 +10,11 @@ public record BoardRegistrationRequest(
         Category category,
         List<String> tags,
         String description,
-        String contents
+        String contents,
+
+        List<String> filePaths
 ) {
     public BoardRegistrationDto toDto() {
-        return new BoardRegistrationDto(title, category, tags, description, contents);
+        return new BoardRegistrationDto(title, category, tags, description, contents, filePaths);
     }
 }

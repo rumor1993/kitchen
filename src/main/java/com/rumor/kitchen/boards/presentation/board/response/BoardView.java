@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 @Getter
 public class BoardView {
@@ -15,11 +16,11 @@ public class BoardView {
     private String Contents;
     private UserView Creator;
     private Long viewCount;
-
     private Long createdAt;
     private Long updatedAt;
+    private List<String> paths;
 
-    public BoardView(Long id, String title, com.rumor.kitchen.enumeration.Category category, String description, String contents, UserView creator, Long viewCount, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public BoardView(Long id, String title, com.rumor.kitchen.enumeration.Category category, String description, String contents, UserView creator, Long viewCount, LocalDateTime createdAt, LocalDateTime updatedAt, List<String> paths) {
         this.id = id;
         this.Title = title;
         this.Category = category;
@@ -29,5 +30,6 @@ public class BoardView {
         this.viewCount = viewCount;
         this.createdAt = createdAt.atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli();
         this.updatedAt = updatedAt.atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli();
+        this.paths = paths;
     }
 }

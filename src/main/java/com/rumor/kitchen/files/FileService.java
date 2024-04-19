@@ -13,8 +13,14 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class FileService {
+    private final FileRepository fileRepository;
+
     public Path saveAndGetPath(MultipartFile file) throws IOException {
-        Path directory = Paths.get("data", "kitchen");
+        return saveAndGetPath("common" ,file);
+    }
+
+    public Path saveAndGetPath(String directoryName, MultipartFile file) throws IOException {
+        Path directory = Paths.get("data", "kitchen", directoryName);
         Path directoryAbsolute = directory.toAbsolutePath().normalize();
         Files.createDirectories(directory);
 

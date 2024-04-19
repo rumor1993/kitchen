@@ -9,7 +9,7 @@ public record BoardRegistrationDto(
         Category category,
         List<String> tags,
         String description,
-        String contents
-) {
+        String contents,
+        List<String> filePaths) {
 
 }

@@ -1,6 +1,8 @@
 package com.rumor.kitchen.files;
 
 
+import com.rumor.kitchen.config.resolver.Login;
+import com.rumor.kitchen.users.domain.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,7 @@ public class FileController {
     private final FileService fileService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> upload(@RequestPart MultipartFile file) throws IOException {
-        return ResponseEntity.ok().body("/" + fileService.saveAndGetPath(file).toString());
+    public ResponseEntity<String> upload(@Login LoginUser loginUser, @RequestPart MultipartFile file) throws IOException {
+        return ResponseEntity.ok().body("/" + fileService.saveAndGetPath(loginUser.getId().toString(), file).toString());
     }
 }
