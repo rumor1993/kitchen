@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return true;
         }
 
-        String[] excludePath = {"/oauth2/", "/favicon.ico", "/boards", "/swagger-ui"};
+        String[] excludePath = {"/oauth2/", "/favicon.ico", "/boards", "/swagger-ui/", "/v3/"};
         String path = request.getRequestURI();
         return Arrays.stream(excludePath).anyMatch(path::startsWith);
     }
