@@ -32,6 +32,7 @@ public class OauthController {
         cookie.setSecure(true);
         cookie.setPath("/");
         cookie.setDomain("rumor-lab.com");
+        cookie.setDomain("localhost"); // localhost 도메인
         cookie.setHttpOnly(true);
         cookie.setMaxAge(3600);
 
